@@ -32,7 +32,7 @@ Copy `.env.example` to `.env` (or set in the Netlify UI):
 | Variable | Purpose |
 | --- | --- |
 | `PUBLIC_SITE_URL` | Public domain, feeds canonical URLs and Open Graph. Defaults to `https://sollelio.com`. |
-| `PUBLIC_LINKEDIN_URL` | Hélio's LinkedIn profile. **Until set, the "Connect on LinkedIn" links point at an obvious placeholder** (`…/in/REPLACE-WITH-HELIO-LINKEDIN-URL`) so nothing fabricated ships. |
+| `PUBLIC_LINKEDIN_URL` | Hélio's LinkedIn profile. Defaults to `https://www.linkedin.com/in/helio-goncalves/` (set in `src/data/site.js`). |
 
 The contact email (`helio@sollelio.com`) lives in `src/data/site.js`.
 

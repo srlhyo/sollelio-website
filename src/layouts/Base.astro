@@ -7,7 +7,8 @@ import { SITE } from '../data/site.js';
 import { t as dict, localePath, LOCALES } from '../i18n/index.js';
 
 // `path` is the language-neutral route ('/' or '/events'); `lang` picks the locale.
-const { title, description, image = '/og.png', lang = 'pt', path = '/' } = Astro.props;
+const { title, description, lang = 'pt', path = '/' } = Astro.props;
+const image = Astro.props.image || (lang === 'pt' ? '/og-pt.png' : '/og.png');
 const t = dict(lang);
 const canonical = new URL(localePath(lang, path), Astro.site);
 const alternates = LOCALES.map((l) => ({ lang: l, hreflang: dict(l).htmlLang, href: new URL(localePath(l, path), Astro.site) }));

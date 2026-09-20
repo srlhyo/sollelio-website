@@ -1,0 +1,4 @@
+# Normalise trailing slashes to the canonical, slash-less URLs
+/en/            /en            301
+/events/        /events        301
+/en/events/     /en/events     301

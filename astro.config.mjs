@@ -17,7 +17,7 @@ export default defineConfig({
       provider: fontProviders.fontsource(),
       name: 'Manrope',
       cssVariable: '--font-sans',
-      weights: [400, 500, 600, 700],
+      weights: [400, 500, 600],
       styles: ['normal'],
       subsets: ['latin', 'latin-ext'],
       fallbacks: ['system-ui', 'Segoe UI', 'Helvetica Neue', 'sans-serif'],
