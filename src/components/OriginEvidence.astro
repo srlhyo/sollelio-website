@@ -1,0 +1,143 @@
+---
+// Authentic origin evidence: the internal system built for Do Luxo à Mesa,
+// shown in that business's own identity and clearly labelled as the origin,
+// not the visual direction of Sollelio Events. One frame, four views.
+const { t, compact = false } = Astro.props;
+const views = t.views;
+---
+<figure class="oe" data-views aria-labelledby="oe-cap">
+  <div class="oe__head">
+    <div class="oe__origin">
+      <img class="oe__logo" src="/origin/do-luxo-a-mesa-logo.png" alt="Do Luxo à Mesa" width="190" height="240" />
+      <span class="oe__label mono">{t.label}</span>
+    </div>
+    <div class="oe__tabs" role="group" aria-label={t.eyebrow}>
+      {views.map((v, i) => (
+        <button type="button" class="oe__tab" data-view-btn={v.id} aria-pressed={i === 0 ? 'true' : 'false'}>{v.tab}</button>
+      ))}
+    </div>
+  </div>
+  <div class="oe__frame">
+    {views.map((v, i) => (
+      <div class="oe__view" data-view={v.id} hidden={i !== 0}>
+        <picture>
+          <source media="(max-width: 47.99em)" srcset={`/origin/dlm-${v.id}-m.webp`} />
+          <img src={`/origin/dlm-${v.id}.webp`} srcset={`/origin/dlm-${v.id}-900.webp 900w, /origin/dlm-${v.id}.webp 1600w`} sizes="(min-width: 76rem) 1216px, 100vw" width="1600" height="830" alt={v.alt} style="height:auto" loading="lazy" decoding="async" />
+        </picture>
+        <div class="oe__caption">
+          <p class="small">{v.caption}</p>
+          <a class="oe__full mono" href={`/origin/dlm-${v.id}.webp`} target="_blank" rel="noopener">{t.full}</a>
+        </div>
+      </div>
+    ))}
+  </div>
+  <figcaption id="oe-cap" class="micro oe__note">{t.note}</figcaption>
+</figure>
+
+<style>
+  .oe {
+    display: grid;
+    gap: 1rem;
+  }
+  .oe__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+  }
+  .oe__origin {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+  }
+  .oe__logo {
+    height: 2.75rem;
+    width: auto;
+  }
+  .oe__label {
+    font-size: var(--fs-micro);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+  .oe__tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .oe__tab {
+    min-height: 2.5rem;
+    padding: 0 0.9rem;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    font-size: var(--fs-small);
+    font-weight: 500;
+    color: var(--ink-2);
+    background: transparent;
+    transition: background-color 0.2s var(--ease), color 0.2s var(--ease), border-color 0.2s var(--ease);
+  }
+  .oe__tab:hover {
+    color: var(--ink);
+    border-color: var(--ink-3);
+  }
+  .oe__tab[aria-pressed='true'] {
+    background: var(--c-graphite);
+    border-color: var(--c-graphite);
+    color: var(--c-offwhite);
+  }
+  /* A neutral evidence frame: not a Sollelio product surface. */
+  .oe__frame {
+    background: var(--bg-2);
+    border: 1px solid var(--line-2);
+    border-radius: var(--r-l);
+    padding: clamp(0.75rem, 2vw, 1.5rem);
+  }
+  .oe__view {
+    display: grid;
+    gap: 1rem;
+  }
+  .oe__view[hidden] {
+    display: none;
+  }
+  .oe__view img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--r-s);
+    border: 1px solid var(--line-2);
+    background: #fff;
+    box-shadow: 0 24px 50px -36px rgba(37, 39, 43, 0.4);
+  }
+  .oe__caption {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem 1.5rem;
+    color: var(--ink-2);
+  }
+  .oe__caption p {
+    max-width: 44em;
+  }
+  .oe__full {
+    font-size: var(--fs-micro);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 1px;
+  }
+  .oe__full:hover {
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+  .oe__note {
+    max-width: 60em;
+  }
+  @media (max-width: 47.99em) {
+    .oe__tab {
+      font-size: 0.875rem;
+      padding: 0 0.75rem;
+    }
+  }
+</style>

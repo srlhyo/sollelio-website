@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+import { t as dict, localePath } from '../i18n/index.js';
+const pt = dict('pt');
+const en = dict('en');
+---
+<Base title={pt.meta.notFound.title} description={pt.meta.notFound.body} lang="pt" path="/">
+  <section class="section">
+    <div class="container shead">
+      <p class="eyebrow">404</p>
+      <h1 class="h2">{pt.meta.notFound.heading}</h1>
+      <p class="lead">{pt.meta.notFound.body}</p>
+      <p><a class="link-plain" href={localePath('pt', '/')}>{pt.meta.notFound.back}</a></p>
+      <p class="small" lang="en">{en.meta.notFound.body} <a class="link-plain" href={localePath('en', '/')}>{en.meta.notFound.back}</a></p>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,366 @@
+---
+import Base from '../../layouts/Base.astro';
+import Arrow from '../Arrow.astro';
+import SectionHead from '../SectionHead.astro';
+import Fragmentation from '../Fragmentation.astro';
+import JourneyMap from '../JourneyMap.astro';
+import PartnerProcess from '../PartnerProcess.astro';
+import OriginEvidence from '../OriginEvidence.astro';
+import { SITE, mailto, DP_SUBJECT } from '../../data/site.js';
+import { t as dict } from '../../i18n/index.js';
+
+const { lang } = Astro.props;
+const t = dict(lang);
+const e = t.events;
+---
+<Base title={t.meta.events.title} description={t.meta.events.description} lang={lang} path="/events">
+  <!-- 1. Hero -->
+  <section class="hero theme-events" aria-labelledby="hero-title">
+    <div class="container hero__grid">
+      <div class="hero__copy">
+        <p class="eyebrow reveal">{e.hero.eyebrow}</p>
+        <h1 id="hero-title" class="display reveal" style="--d:.06s">{e.hero.title}</h1>
+        <p class="lead reveal" style="--d:.12s">{e.hero.lead}</p>
+        <div class="actions reveal" style="--d:.18s">
+          <a class="btn" href="#design-partners">{e.hero.primary} <Arrow /></a>
+          <a class="btn btn--secondary" href={mailto()}>{e.hero.secondary}</a>
+        </div>
+      </div>
+      <div class="hero__plate plate reveal" style="--d:.2s" aria-hidden="true">
+        <img src="/brand/sollelio-events-logo-horizontal-outlined.svg" alt="" width="430" height="120" />
+        <dl class="hero__facts">
+          {e.hero.facts.map(([k, v]) => <div><dt class="mono">{k}</dt><dd>{v}</dd></div>)}
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. The problem -->
+  <section class="section section--hairline problem" id="problem" aria-labelledby="problem-title">
+    <div class="container">
+      <div class="split split--sticky">
+        <SectionHead eyebrow={e.problem.eyebrow} heading={e.problem.title} id="problem-title" headingClass="h2 problem__heading" />
+        <div class="prose body measure reveal">
+          {e.problem.ps.map((p) => <p>{p}</p>)}
+        </div>
+      </div>
+      <div class="problem__figure reveal">
+        <Fragmentation t={t.fig.frag} />
+      </div>
+      <p class="lead problem__close measure reveal">{e.problem.close}</p>
+    </div>
+  </section>
+
+  <!-- 3. Origin story -->
+  <section class="section section--hairline origin" id="origin" aria-labelledby="origin-title">
+    <div class="container">
+      <div class="split split--sticky">
+        <div class="stack" style="--stack:2rem">
+          <SectionHead eyebrow={e.origin.eyebrow} heading={e.origin.title} id="origin-title" />
+          <dl class="origin__fact plate reveal" style="--d:.1s">
+            <dt class="mono">{e.origin.factLabel}</dt>
+            <dd>
+              <img class="origin__fact-logo" src="/origin/do-luxo-a-mesa-logo.png" alt="" width="190" height="240" />
+              <strong>{e.origin.factName}</strong>
+              <span>{e.origin.factSub}</span>
+            </dd>
+          </dl>
+        </div>
+        <div class="prose body measure reveal">
+          {e.origin.ps.map((p) => <p>{p}</p>)}
+          <p class="origin__question h3">{e.origin.question}</p>
+          <p class="em">{e.origin.close}</p>
+        </div>
+      </div>
+
+      <div class="origin__evidence">
+        <SectionHead eyebrow={e.evidence.eyebrow} heading={e.evidence.title} level="h3" headingClass="h3 origin__evidence-title" id="evidence-title" />
+        <div class="reveal" style="--d:.1s">
+          <OriginEvidence t={e.evidence} />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. What we're building (product environment) -->
+  <section class="section theme-dark theme-events building" id="building" aria-labelledby="building-title">
+    <div class="container">
+      <div class="building__head">
+        <SectionHead eyebrow={e.building.eyebrow} heading={e.building.title} id="building-title" lead={e.building.lead} />
+      </div>
+      <div class="building__map">
+        <JourneyMap t={t.product} />
+      </div>
+      <p class="micro building__note measure reveal">{e.building.micro}</p>
+      <aside class="building__philosophy reveal" aria-labelledby="phil-title">
+        <h3 id="phil-title" class="h3">{e.building.philTitle}</h3>
+        <div class="prose body">
+          <p>{e.building.philP1}</p>
+          <p>{e.building.philP2}</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 5. Founding Design Partner Program -->
+  <section class="section theme-events dp" id="design-partners" aria-labelledby="dp-title">
+    <div class="container">
+      <div class="split split--sticky">
+        <SectionHead eyebrow={e.dp.eyebrow} heading={e.dp.title} id="dp-title" headingClass="h2 dp__heading" />
+        <div class="stack" style="--stack:2.25rem">
+          <div class="prose body measure reveal">
+            <p>{e.dp.p1}</p>
+            <p>{e.dp.p2}</p>
+          </div>
+          <div class="dp__point reveal" style="--d:.06s">
+            <h3 class="h3">{e.dp.notTitle}</h3>
+            <p class="body measure">{e.dp.notBody}</p>
+          </div>
+          <div class="dp__point reveal" style="--d:.12s">
+            <h3 class="h3">{e.dp.returnTitle}</h3>
+            <p class="body measure">{e.dp.returnBody}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="dp__process">
+        <p class="eyebrow reveal">{e.dp.processEyebrow}</p>
+        <PartnerProcess t={t.fig.process} />
+        <p class="micro measure reveal">{e.dp.micro}</p>
+      </div>
+
+      <div class="dp__cta reveal">
+        <a class="btn" href={mailto(DP_SUBJECT)}>{e.dp.cta} <Arrow /></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Final CTA -->
+  <section class="section theme-dark final" id="contact" aria-labelledby="final-title">
+    <div class="container final__grid">
+      <div class="shead">
+        <h2 id="final-title" class="h1 reveal">{e.final.title}</h2>
+        <div class="prose lead reveal" style="--d:.06s">
+          <p>{e.final.p1}</p>
+          <p>{e.final.p2}</p>
+        </div>
+      </div>
+      <div class="final__actions reveal" style="--d:.12s">
+        <a class="btn" href={mailto()}>{e.final.cta} <Arrow /></a>
+        <a class="final__email mono" href={mailto()}>{SITE.email}</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* Hero */
+  .hero {
+    padding-block: clamp(3.5rem, 2rem + 6vw, 8rem) clamp(4rem, 3rem + 6vw, 8rem);
+  }
+  .hero__grid {
+    display: grid;
+    gap: 3rem;
+    align-items: center;
+  }
+  .hero__copy {
+    display: grid;
+    gap: 1.5rem;
+    justify-items: start;
+  }
+  .hero__copy .display {
+    max-width: 16ch;
+    font-size: clamp(2.5rem, 1.3rem + 3.7vw, 4.75rem);
+  }
+  .hero__copy .lead {
+    max-width: 32em;
+  }
+  .hero__copy .actions {
+    margin-top: 0.5rem;
+  }
+  .hero__plate {
+    display: grid;
+    gap: 1.75rem;
+    padding: 2rem;
+    box-shadow: 0 24px 60px -32px rgba(17, 21, 45, 0.28);
+  }
+  .hero__plate img {
+    height: clamp(3.5rem, 3rem + 2vw, 5rem);
+    width: auto;
+  }
+  .hero__facts {
+    display: grid;
+    gap: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line-2);
+  }
+  .hero__facts div {
+    display: grid;
+    grid-template-columns: 6.5rem 1fr;
+    gap: 1rem;
+    align-items: baseline;
+  }
+  .hero__facts dt {
+    font-size: var(--fs-micro);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .hero__facts dd {
+    margin: 0;
+    font-size: var(--fs-small);
+    color: var(--ink-2);
+  }
+  @media (min-width: 60em) {
+    .hero__grid {
+      grid-template-columns: 7fr 5fr;
+      gap: clamp(2rem, 6vw, 6rem);
+    }
+  }
+
+  /* Problem */
+  .problem .shead .h2 {
+    max-width: 18ch;
+  }
+  .problem__figure {
+    margin-top: clamp(3rem, 2rem + 4vw, 5.5rem);
+    padding-top: clamp(2rem, 1rem + 3vw, 3.5rem);
+    border-top: 1px solid var(--line-2);
+  }
+  .problem__close {
+    margin-top: clamp(2.5rem, 2rem + 3vw, 4rem);
+  }
+
+  /* Origin */
+  .origin__fact {
+    display: grid;
+    gap: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    max-width: 24rem;
+  }
+  .origin__fact dt {
+    font-size: var(--fs-micro);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .origin__fact dd {
+    margin: 0;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    column-gap: 0.9rem;
+    align-items: center;
+  }
+  .origin__fact-logo {
+    grid-row: 1 / 3;
+    height: 3.25rem;
+    width: auto;
+  }
+  .origin__fact dd strong {
+    align-self: end;
+  }
+  .origin__fact dd span {
+    align-self: start;
+    font-size: var(--fs-small);
+    color: var(--ink-2);
+  }
+  .origin__question {
+    color: var(--ink);
+    margin-block: 1.6em !important;
+    max-width: 24ch;
+  }
+  .origin__evidence {
+    margin-top: clamp(3.5rem, 2rem + 5vw, 6rem);
+    padding-top: clamp(2.5rem, 1.5rem + 3vw, 4rem);
+    border-top: 1px solid var(--line-2);
+    display: grid;
+    gap: 2rem;
+  }
+  .origin__evidence .shead .origin__evidence-title {
+    max-width: 30ch;
+    font-size: var(--fs-h3);
+  }
+
+  /* Building (dark product environment) */
+  .building__head .shead .h2 {
+    max-width: 18ch;
+  }
+  .building__map {
+    margin-top: clamp(3rem, 2rem + 4vw, 5rem);
+  }
+  .building__note {
+    margin-top: 2.5rem;
+  }
+  .building__philosophy {
+    margin-top: clamp(3rem, 2rem + 4vw, 5rem);
+    padding: 2rem clamp(1.5rem, 3vw, 2.5rem);
+    border-radius: var(--r-l);
+    background: var(--surface-2);
+    border: 1px solid var(--line-2);
+    display: grid;
+    gap: 1rem;
+  }
+  .building__philosophy .prose {
+    max-width: 34em;
+  }
+  @media (min-width: 60em) {
+    .building__philosophy {
+      grid-template-columns: 5fr 7fr;
+      gap: clamp(2rem, 6vw, 6rem);
+      align-items: start;
+    }
+  }
+
+  /* Design partner programme */
+  .dp .shead .h2 {
+    max-width: 20ch;
+  }
+  .dp__point {
+    display: grid;
+    gap: 0.6rem;
+  }
+  .dp__process {
+    margin-top: clamp(3.5rem, 2rem + 5vw, 6rem);
+    padding-top: clamp(2.5rem, 1.5rem + 3vw, 4rem);
+    border-top: 1px solid var(--line-2);
+    display: grid;
+    gap: 2rem;
+  }
+  .dp__cta {
+    margin-top: 3rem;
+  }
+
+  /* Final CTA */
+  .final__grid {
+    display: grid;
+    gap: 2.5rem;
+  }
+  .final .shead .h1 {
+    max-width: 18ch;
+    font-size: clamp(2.1rem, 1.3rem + 2.8vw, 3.9rem);
+  }
+  .final__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.75rem;
+  }
+  .final__email {
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 2px;
+  }
+  .final__email:hover {
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+  @media (min-width: 60em) {
+    .final__grid {
+      grid-template-columns: 7fr 5fr;
+      align-items: end;
+      gap: 4rem;
+    }
+  }
+</style>

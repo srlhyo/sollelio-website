@@ -1,0 +1,17 @@
+{
+  "name": "sollelio-site",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Public website for Sollelio — V0 (Minimum Credible Presence).",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "astro": "^7.3.3",
+    "sharp": "^0.35.4"
+  }
+}

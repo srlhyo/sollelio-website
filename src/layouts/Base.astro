@@ -1,0 +1,62 @@
+---
+import { Font } from 'astro:assets';
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { SITE } from '../data/site.js';
+import { t as dict, localePath, LOCALES } from '../i18n/index.js';
+
+// `path` is the language-neutral route ('/' or '/events'); `lang` picks the locale.
+const { title, description, image = '/og.png', lang = 'pt', path = '/' } = Astro.props;
+const t = dict(lang);
+const canonical = new URL(localePath(lang, path), Astro.site);
+const alternates = LOCALES.map((l) => ({ lang: l, hreflang: dict(l).htmlLang, href: new URL(localePath(l, path), Astro.site) }));
+---
+<!doctype html>
+<html lang={t.htmlLang} class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <script is:inline>document.documentElement.classList.replace('no-js', 'js');</script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+    <link rel="alternate" hreflang="x-default" href={new URL(localePath('pt', path), Astro.site)} />
+    <Font cssVariable="--font-sans" preload />
+    <Font cssVariable="--font-mono" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#F7F4EE" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content={t.ogLocale} />
+    {alternates.filter((a) => a.lang !== lang).map((a) => <meta property="og:locale:alternate" content={dict(a.lang).ogLocale} />)}
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      name: SITE.name,
+      url: SITE.url,
+      logo: new URL('/brand/sollelio-avatar-1024.png', Astro.site),
+      email: SITE.email,
+      description: t.meta.orgDescription,
+      founder: { '@type': 'Person', name: 'Hélio' },
+    })} />
+  </head>
+  <body>
+    <a href="#main" class="skip">{t.skip}</a>
+    <Nav lang={lang} path={path} />
+    <main id="main"><slot /></main>
+    <Footer lang={lang} />
+    <script>
+      import '../scripts/site.js';
+    </script>
+  </body>
+</html>

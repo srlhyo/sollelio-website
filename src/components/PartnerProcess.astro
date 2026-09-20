@@ -1,0 +1,179 @@
+---
+// The Founding Design Partner collaboration, as a track in three phases with
+// iteration feeding back into product work. Desktop: one horizontal track.
+// Mobile: a vertical rail with the same order and phases.
+const { t } = Astro.props; // t = dict.fig.process
+const phases = t.phases;
+let n = 0;
+---
+<div class="pp" role="group" aria-label={t.group}>
+  <ol class="pp__track">
+    {phases.map((ph, pi) => (
+      <li class="pp__phase reveal" style={`--d:${pi * 0.12}s;--n:${ph.steps.length}`}>
+        <span class="pp__phase-name mono">{ph.name}</span>
+        <ol class="pp__steps">
+          {ph.steps.map((s) => {
+            n += 1;
+            const last = n === 7;
+            return (
+              <li class:list={['pp__step', { 'pp__step--loop': last }]}>
+                <span class="pp__num mono">{String(n).padStart(2, '0')}</span>
+                <span class="pp__label">
+                  {s}
+                  {last && <span class="sr-only">{t.loopSr}</span>}
+                </span>
+              </li>
+            );
+          })}
+        </ol>
+      </li>
+    ))}
+  </ol>
+  <div class="pp__loop reveal" style="--d:.4s" aria-hidden="true">
+    <svg class="pp__loop-arrow" viewBox="0 0 12 12" fill="none"><path d="M10 6H2M5.5 2.5 2 6l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    <span class="mono">{t.loop}</span>
+  </div>
+</div>
+
+<style>
+  .pp {
+    display: grid;
+    grid-template-columns: 3fr 2fr 2fr;
+    gap: 0 2rem;
+  }
+  .pp__track {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: subgrid;
+  }
+  .pp__phase {
+    display: grid;
+    gap: 1rem;
+    align-content: start;
+  }
+  .pp__phase-name {
+    font-size: var(--fs-micro);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-ink);
+  }
+  .pp__steps {
+    display: grid;
+    grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+    gap: 0 1rem;
+    position: relative;
+  }
+  .pp__step {
+    position: relative;
+    display: grid;
+    gap: 0.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+  }
+  .pp__step::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 0;
+    width: 11px;
+    height: 11px;
+    border-radius: 3px;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px var(--bg);
+  }
+  .pp__num {
+    font-size: var(--fs-micro);
+    color: var(--ink-3);
+  }
+  .pp__label {
+    font-size: var(--fs-small);
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--ink);
+    padding-right: 0.75rem;
+    text-wrap: balance;
+  }
+  /* Iteration loop: from 07 back to 04, drawn under the last two phases. */
+  .pp__loop {
+    grid-column: 2 / 4;
+    margin-top: 1.5rem;
+    padding-top: 0.5rem;
+    border: 1px solid var(--line);
+    border-top: 0;
+    border-radius: 0 0 12px 12px;
+    display: flex;
+    justify-content: center;
+    gap: 0.4rem;
+    align-items: center;
+    height: 2.6rem;
+    font-size: var(--fs-micro);
+    color: var(--ink-3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    position: relative;
+  }
+  .pp__loop::before,
+  .pp__loop::after {
+    content: '';
+    position: absolute;
+    top: -0.75rem;
+    width: 1px;
+    height: 0.75rem;
+    background: var(--line);
+  }
+  .pp__loop::before { left: -1px; }
+  .pp__loop::after { right: -1px; }
+  .pp__loop-arrow {
+    width: 12px;
+    height: 12px;
+    color: var(--accent-ink);
+  }
+
+  @media (max-width: 56em) {
+    .pp {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    .pp__track {
+      grid-template-columns: 1fr;
+      border-left: 1px solid var(--line);
+      padding-left: 1.5rem;
+    }
+    .pp__phase {
+      gap: 0.75rem;
+      padding-bottom: 1.5rem;
+    }
+    .pp__steps {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    .pp__step {
+      grid-template-columns: 2rem 1fr;
+      align-items: baseline;
+      gap: 0.75rem;
+      padding: 0.55rem 0;
+      border-top: 0;
+    }
+    .pp__step::before {
+      top: 0.85rem;
+      left: calc(-1.5rem - 6px);
+    }
+    .pp__label {
+      font-size: 1rem;
+    }
+    .pp__loop {
+      grid-column: auto;
+      justify-self: start;
+      width: auto;
+      margin: 0 0 0 1.5rem;
+      padding: 0;
+      border: 0;
+      height: auto;
+      justify-content: flex-start;
+    }
+    .pp__loop::before,
+    .pp__loop::after {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,242 @@
+---
+// "The problem" figure: seven places where the work behind an event lives,
+// each connected to one operation. Glyphs are generic (no third-party logos).
+// Desktop: a positioned field with drawn connectors. Mobile: a readable flow.
+const { t } = Astro.props; // t = dict.fig.frag
+const geometry = [
+  { icon: 'chat', x: 16, y: 12 },
+  { icon: 'sheet', x: 50, y: 8 },
+  { icon: 'doc', x: 10, y: 40 },
+  { icon: 'calendar', x: 46, y: 34 },
+  { icon: 'task', x: 18, y: 66 },
+  { icon: 'pay', x: 52, y: 62 },
+  { icon: 'memory', x: 32, y: 90 },
+];
+const sources = geometry.map((g, i) => ({ ...g, label: t.sources[i] }));
+const HUB_X = 71; // left edge of the hub, in % of the stage width
+const HUB_Y = 50;
+const ratio = 0.58; // stage height / width
+const path = (s) => {
+  const x1 = s.x, y1 = s.y * ratio, x2 = HUB_X, y2 = HUB_Y * ratio;
+  const cx = x1 + (x2 - x1) * 0.55;
+  return `M ${x1} ${y1} C ${cx} ${y1}, ${cx} ${y2}, ${x2} ${y2}`;
+};
+---
+<svg hidden aria-hidden="true" focusable="false">
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-4.5 3.5V17H6.5A2.5 2.5 0 0 1 4 14.5z"/></symbol>
+  <symbol id="i-sheet" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16M4 15h16M10 4v16"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M7 3h7l5 5v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M8 3v4M16 3v4"/></symbol>
+  <symbol id="i-task" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="m8.5 12 2.5 2.5 4.5-5"/></symbol>
+  <symbol id="i-pay" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18M7 14h3"/></symbol>
+  <symbol id="i-memory" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" stroke-dasharray="3 3"/><circle cx="12" cy="12" r="2.5"/></symbol>
+</svg>
+
+<figure class="frag" aria-labelledby="frag-cap">
+  <div class="frag__stage">
+    <svg class="frag__lines" viewBox={`0 0 100 ${100 * ratio}`} preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      {sources.map((s, i) => (
+        <path d={path(s)} pathLength="1" style={`--i:${i}`} />
+      ))}
+    </svg>
+    <ul class="frag__sources">
+      {sources.map((s, i) => (
+        <li class="frag__tok" style={`--x:${s.x}%;--y:${s.y}%;--i:${i}`}>
+          <svg class="frag__icon" aria-hidden="true" focusable="false"><use href={`#i-${s.icon}`} /></svg>
+          <span>{s.label}</span>
+        </li>
+      ))}
+    </ul>
+    <div class="frag__hub">
+      <span class="frag__hub-eyebrow mono">{t.hubEyebrow}</span>
+      <span class="frag__hub-title">{t.hubTitle}</span>
+      <span class="frag__hub-body">{t.hubBody}</span>
+    </div>
+  </div>
+  <figcaption id="frag-cap" class="sr-only">{t.alt}</figcaption>
+</figure>
+
+<style>
+  .frag {
+    width: 100%;
+  }
+  .frag__stage {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 0.58;
+  }
+  .frag__lines {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  .frag__lines path {
+    fill: none;
+    stroke: var(--ink-3);
+    stroke-width: 1px;
+    vector-effect: non-scaling-stroke;
+    opacity: 0.55;
+  }
+  .frag__sources {
+    position: absolute;
+    inset: 0;
+  }
+  .frag__tok {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    transform: translate(-50%, -50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 0.85rem 0.55rem 0.7rem;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    color: var(--ink);
+    white-space: nowrap;
+    box-shadow: 0 8px 24px -16px rgba(17, 21, 45, 0.35);
+  }
+  .frag__icon {
+    width: 1.05rem;
+    height: 1.05rem;
+    fill: none;
+    stroke: var(--accent-ink);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .frag__hub {
+    position: absolute;
+    left: 71%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 29%;
+    min-width: 13rem;
+    display: grid;
+    gap: 0.4rem;
+    padding: 1.25rem 1.25rem 1.35rem;
+    background: var(--c-midnight);
+    color: var(--c-offwhite);
+    border-radius: var(--r-m);
+    box-shadow: 0 30px 60px -30px rgba(17, 21, 45, 0.6);
+  }
+  .frag__hub-eyebrow {
+    font-size: var(--fs-micro);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #5fd3c9;
+  }
+  .frag__hub-title {
+    font-weight: 600;
+    font-size: var(--fs-h3);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+  .frag__hub-body {
+    font-size: var(--fs-small);
+    color: rgba(247, 244, 238, 0.72);
+    line-height: 1.5;
+    text-wrap: pretty;
+  }
+
+  /* Entry: tokens land, connectors draw in. */
+  .js .frag__tok {
+    opacity: 0;
+    transform: translate(-50%, -40%);
+    transition: opacity 0.6s var(--ease), transform 0.8s var(--ease);
+    transition-delay: calc(var(--i) * 0.08s);
+  }
+  .js .frag__lines path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 1.1s var(--ease);
+    transition-delay: calc(0.3s + var(--i) * 0.08s);
+  }
+  .js .frag__hub {
+    opacity: 0;
+    transform: translateY(calc(-50% + 12px));
+    transition: opacity 0.7s var(--ease), transform 0.9s var(--ease);
+    transition-delay: 0.6s;
+  }
+  .js .frag.is-in .frag__tok {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+  .js .frag.is-in .frag__lines path {
+    stroke-dashoffset: 0;
+  }
+  .js .frag.is-in .frag__hub {
+    opacity: 1;
+    transform: translateY(-50%);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .js .frag__tok,
+    .js .frag__hub {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+      transition: none;
+    }
+    .js .frag__hub {
+      transform: translateY(-50%);
+    }
+    .js .frag__lines path {
+      stroke-dashoffset: 0;
+      transition: none;
+    }
+  }
+
+  /* Recompose: a readable flow instead of a shrunken map. */
+  @media (max-width: 47.99em) {
+    .frag__stage {
+      aspect-ratio: auto;
+      display: grid;
+      gap: 0;
+      justify-items: start;
+    }
+    .frag__lines {
+      display: none;
+    }
+    .frag__sources {
+      position: static;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+    .frag__tok,
+    .js .frag__tok,
+    .js .frag.is-in .frag__tok {
+      position: static;
+      transform: none;
+      opacity: 1;
+      transition: opacity 0.6s var(--ease);
+    }
+    .js .frag__tok {
+      opacity: 0;
+    }
+    .js .frag.is-in .frag__tok {
+      opacity: 1;
+    }
+    .frag__stage::after {
+      content: '';
+      width: 1px;
+      height: 2.25rem;
+      margin: 0.5rem 0 0.5rem 1.4rem;
+      background: var(--ink-3);
+      grid-row: 2;
+    }
+    .frag__hub,
+    .js .frag__hub,
+    .js .frag.is-in .frag__hub {
+      position: static;
+      transform: none;
+      width: 100%;
+      min-width: 0;
+      grid-row: 3;
+    }
+  }
+</style>

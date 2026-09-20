@@ -1,0 +1,81 @@
+---
+import { SITE, mailto, linkedinHref } from '../data/site.js';
+import { t as dict, localePath } from '../i18n/index.js';
+const { lang = 'pt' } = Astro.props;
+const t = dict(lang);
+const linkedin = linkedinHref();
+---
+<footer class="footer theme-dark">
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <a href={localePath(lang, '/')} aria-label={t.nav.home} class="footer__logo">
+        <img src="/brand/sollelio-logo-horizontal-reverse-outlined.svg" alt="Sollelio" width="430" height="112" />
+      </a>
+      <p class="footer__tagline">{t.footer.tagline}</p>
+    </div>
+    <nav class="footer__nav" aria-label={t.footer.nav}>
+      <ul>
+        <li><a href={localePath(lang, '/events')}>{t.footer.events}</a></li>
+        <li><a href={`${localePath(lang, '/events')}#design-partners`}>{t.footer.partners}</a></li>
+        <li><a href={linkedin} rel="me noopener" target="_blank" data-placeholder={SITE.linkedin ? undefined : 'linkedin'}>{t.footer.linkedin}</a></li>
+        <li><a href={mailto()}>{t.footer.email}</a></li>
+      </ul>
+    </nav>
+    <p class="footer__legal mono">© {SITE.year} Sollelio</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--bg);
+    color: var(--ink);
+    border-top: 1px solid var(--line-2);
+    padding-block: 3rem 2.5rem;
+  }
+  .footer__grid {
+    display: grid;
+    gap: 2rem;
+    align-items: start;
+  }
+  .footer__logo img {
+    height: 2.5rem;
+    width: auto;
+  }
+  .footer__tagline {
+    margin-top: 1rem;
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+  }
+  .footer__nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.75rem;
+  }
+  .footer__nav a {
+    font-size: var(--fs-small);
+    font-weight: 500;
+    color: var(--ink-2);
+    padding: 0.35rem 0;
+    display: inline-block;
+    border-bottom: 1px solid transparent;
+    transition: color 0.2s var(--ease), border-color 0.2s var(--ease);
+  }
+  .footer__nav a:hover {
+    color: var(--ink);
+    border-bottom-color: var(--ink-3);
+  }
+  .footer__legal {
+    font-size: var(--fs-micro);
+    color: var(--ink-3);
+  }
+  @media (min-width: 60em) {
+    .footer__grid {
+      grid-template-columns: 1fr auto;
+      grid-template-areas: 'brand nav' 'legal nav';
+      row-gap: 3rem;
+    }
+    .footer__brand { grid-area: brand; }
+    .footer__nav { grid-area: nav; }
+    .footer__legal { grid-area: legal; align-self: end; }
+  }
+</style>

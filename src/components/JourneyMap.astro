@@ -1,0 +1,107 @@
+---
+// "What we're building": eight operational areas laid along one rail, in the
+// approved order, framed by the two ends of the event journey. An ordered list,
+// not a feature grid: the sequence is the point.
+const { t } = Astro.props; // t = dict.product
+const areas = t.areas;
+---
+<div class="jm">
+  <div class="jm__ends mono reveal">
+    <span>{t.ends[0]}</span>
+    <span>{t.ends[1]}</span>
+  </div>
+  <ol class="jm__list">
+    {areas.map(([title, body], i) => (
+      <li class="jm__item reveal" style={`--d:${0.05 + i * 0.05}s`}>
+        <span class="jm__num mono">{String(i + 1).padStart(2, '0')}</span>
+        <h3 class="jm__title">{title}</h3>
+        <p class="jm__body">{body}</p>
+      </li>
+    ))}
+  </ol>
+</div>
+
+<style>
+  .jm {
+    display: grid;
+    gap: 1.25rem;
+  }
+  .jm__ends {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: var(--fs-micro);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-ink);
+  }
+  .jm__ends span:last-child {
+    text-align: right;
+  }
+  .jm__list {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    row-gap: 2.5rem;
+  }
+  .jm__item {
+    position: relative;
+    display: grid;
+    gap: 0.6rem;
+    align-content: start;
+    padding: 1.6rem 1.75rem 0 0;
+    border-top: 1px solid var(--line);
+  }
+  /* Node on the rail */
+  .jm__item::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 0;
+    width: 11px;
+    height: 11px;
+    border-radius: 3px;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px var(--bg);
+  }
+  .jm__num {
+    font-size: var(--fs-micro);
+    color: var(--ink-3);
+    letter-spacing: 0.06em;
+  }
+  .jm__title {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+    color: var(--ink);
+  }
+  .jm__body {
+    font-size: var(--fs-small);
+    color: var(--ink-2);
+    text-wrap: pretty;
+  }
+  @media (max-width: 64em) {
+    .jm__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 40em) {
+    .jm__ends {
+      display: none;
+    }
+    .jm__list {
+      grid-template-columns: 1fr;
+      row-gap: 0;
+      border-left: 1px solid var(--line);
+      padding-left: 1.5rem;
+    }
+    .jm__item {
+      border-top: 0;
+      padding: 0 0 1.75rem;
+    }
+    .jm__item::before {
+      top: 0.35rem;
+      left: calc(-1.5rem - 6px);
+    }
+  }
+</style>

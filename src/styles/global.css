@@ -1,0 +1,495 @@
+/* ==========================================================================
+   Sollelio — design tokens and base system (V0)
+   One coherent system with two grounds: Warm Off-white (editorial) and
+   Midnight Indigo (product environments). Sections opt into the dark ground
+   with .theme-dark; Sollelio Events surfaces opt into the teal accent with
+   .theme-events. Everything else reads the same tokens.
+   ========================================================================== */
+
+:root {
+  /* Brand palette (approved) */
+  --c-indigo: #3030a8;
+  --c-cobalt: #2457f5;
+  --c-teal: #00a69a;
+  --c-teal-ink: #007d74; /* teal darkened for small text on light ground */
+  --c-graphite: #25272b;
+  --c-offwhite: #f7f4ee;
+  --c-midnight: #11152d;
+  --c-white: #ffffff;
+
+  /* Light ground (default) */
+  --bg: var(--c-offwhite);
+  --bg-2: #efebe2;
+  --surface: var(--c-white);
+  --surface-2: #fbfaf7;
+  --ink: var(--c-graphite);
+  --ink-2: #5a5d64;
+  --ink-3: #63666c;
+  --line: rgba(37, 39, 43, 0.14);
+  --line-2: rgba(37, 39, 43, 0.08);
+  --mark: var(--c-indigo);
+  --accent: var(--c-indigo);
+  --accent-ink: var(--c-indigo);
+  --accent-soft: rgba(48, 48, 168, 0.08);
+  --link: var(--c-cobalt);
+  --btn-bg: var(--c-indigo);
+  --btn-fg: var(--c-white);
+  --btn-bg-hover: #27278f;
+  --focus: var(--c-cobalt);
+
+  /* Type */
+  --fs-display: clamp(2.5rem, 1.4rem + 4.3vw, 5.5rem);
+  --fs-h1: clamp(2.5rem, 1.5rem + 3.6vw, 4.75rem);
+  --fs-h2: clamp(1.9rem, 1.3rem + 2.1vw, 3.25rem);
+  --fs-h3: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
+  --fs-lead: clamp(1.125rem, 1.04rem + 0.38vw, 1.375rem);
+  --fs-body: 1.0625rem;
+  --fs-small: 0.9375rem;
+  --fs-micro: 0.8125rem;
+  --fs-eyebrow: 0.75rem;
+  --lh-tight: 1.02;
+  --lh-snug: 1.12;
+  --lh-body: 1.6;
+  --track-tight: -0.032em;
+  --track-snug: -0.018em;
+  --track-wide: 0.14em;
+
+  /* Layout */
+  --container: 76rem;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --section: clamp(5rem, 3rem + 7vw, 9.5rem);
+  --section-s: clamp(3.5rem, 2rem + 5vw, 6.5rem);
+  --r-s: 8px;
+  --r-m: 14px;
+  --r-l: 22px;
+
+  /* Motion */
+  --ease: cubic-bezier(0.22, 0.7, 0.2, 1);
+  --dur: 0.7s;
+}
+
+.theme-dark {
+  --bg: var(--c-midnight);
+  --bg-2: #171c3b;
+  --surface: #1a2046;
+  --surface-2: #151a3b;
+  --ink: var(--c-offwhite);
+  --ink-2: rgba(247, 244, 238, 0.72);
+  --ink-3: rgba(247, 244, 238, 0.56);
+  --line: rgba(247, 244, 238, 0.16);
+  --line-2: rgba(247, 244, 238, 0.09);
+  --mark: var(--c-teal);
+  --accent: var(--c-teal);
+  --accent-ink: #5fd3c9;
+  --accent-soft: rgba(0, 166, 154, 0.14);
+  --link: #9db8ff;
+  --btn-bg: var(--c-offwhite);
+  --btn-fg: var(--c-midnight);
+  --btn-bg-hover: var(--c-white);
+  --focus: #8ec8ff;
+  color-scheme: dark;
+}
+
+.theme-events {
+  --mark: var(--c-teal);
+  --accent: var(--c-teal);
+  --accent-ink: var(--c-teal-ink);
+  --accent-soft: rgba(0, 166, 154, 0.1);
+}
+.theme-dark.theme-events {
+  --accent-ink: #5fd3c9;
+}
+
+/* --------------------------------------------------------------------------
+   Base
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  font-feature-settings: 'ss01' 0, 'kern' 1;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+h1,
+h2,
+h3,
+h4,
+p,
+ul,
+ol,
+dl,
+figure {
+  margin: 0;
+}
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+strong {
+  font-weight: 600;
+}
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+::selection {
+  background: var(--c-cobalt);
+  color: var(--c-white);
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.skip {
+  position: absolute;
+  left: 1rem;
+  top: -100%;
+  z-index: 100;
+  padding: 0.75rem 1rem;
+  background: var(--c-graphite);
+  color: var(--c-white);
+  border-radius: var(--r-s);
+}
+.skip:focus {
+  top: 1rem;
+}
+
+/* --------------------------------------------------------------------------
+   Layout primitives
+   -------------------------------------------------------------------------- */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+.section {
+  padding-block: var(--section);
+  background: var(--bg);
+  color: var(--ink);
+}
+.section--s {
+  padding-block: var(--section-s);
+}
+.section--hairline {
+  border-top: 1px solid var(--line-2);
+}
+.split {
+  display: grid;
+  gap: 2.5rem var(--gutter);
+  align-items: start;
+}
+@media (min-width: 60em) {
+  .split {
+    grid-template-columns: 5fr 7fr;
+    gap: 3rem clamp(2rem, 6vw, 6rem);
+  }
+  .split--even {
+    grid-template-columns: 1fr 1fr;
+  }
+  .split--sticky > :first-child {
+    position: sticky;
+    top: 6rem;
+  }
+}
+.stack > * + * {
+  margin-top: var(--stack, 1rem);
+}
+.prose > p + p {
+  margin-top: 1.1em;
+}
+.measure {
+  max-width: 34em;
+}
+.measure-s {
+  max-width: 26em;
+}
+
+/* --------------------------------------------------------------------------
+   Typography
+   -------------------------------------------------------------------------- */
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.75em;
+  font-family: var(--font-mono);
+  font-size: var(--fs-eyebrow);
+  font-weight: 500;
+  letter-spacing: var(--track-wide);
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.eyebrow::before {
+  content: '';
+  flex: none;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 2px;
+  background: var(--mark);
+}
+.eyebrow--plain::before {
+  display: none;
+}
+.display,
+.h1,
+.h2,
+.h3 {
+  font-weight: 600;
+  text-wrap: balance;
+  color: var(--ink);
+}
+.display {
+  font-size: var(--fs-display);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--track-tight);
+}
+.h1 {
+  font-size: var(--fs-h1);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--track-tight);
+}
+.h2 {
+  font-size: var(--fs-h2);
+  line-height: 1.08;
+  letter-spacing: var(--track-snug);
+}
+.h3 {
+  font-size: var(--fs-h3);
+  line-height: var(--lh-snug);
+  letter-spacing: -0.01em;
+}
+.lead {
+  font-size: var(--fs-lead);
+  line-height: 1.45;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+.body {
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+.small {
+  font-size: var(--fs-small);
+}
+.micro {
+  font-size: var(--fs-micro);
+  color: var(--ink-3);
+  text-wrap: pretty;
+}
+.mono {
+  font-family: var(--font-mono);
+  font-feature-settings: 'tnum' 1;
+}
+.em {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* Section header: eyebrow → heading → lead */
+.shead {
+  display: grid;
+  gap: 1.25rem;
+}
+.shead .h2 {
+  max-width: 18ch;
+}
+.shead .lead {
+  max-width: 34em;
+}
+.shead--center {
+  justify-items: center;
+  text-align: center;
+}
+.shead--center .eyebrow {
+  justify-content: center;
+}
+
+/* --------------------------------------------------------------------------
+   Buttons and links
+   -------------------------------------------------------------------------- */
+.btn {
+  --h: 3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  min-height: var(--h);
+  padding: 0 1.4rem;
+  border-radius: 10px;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-weight: 600;
+  font-size: var(--fs-small);
+  letter-spacing: -0.005em;
+  line-height: 1.2;
+  text-align: center;
+  border: 1px solid transparent;
+  transition:
+    background-color 0.2s var(--ease),
+    border-color 0.2s var(--ease),
+    color 0.2s var(--ease),
+    transform 0.2s var(--ease);
+}
+.btn:hover {
+  background: var(--btn-bg-hover);
+}
+.btn:active {
+  transform: translateY(1px);
+}
+.btn--secondary {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--line);
+}
+.btn--secondary:hover {
+  background: var(--accent-soft);
+  border-color: var(--ink-3);
+}
+.btn--accent {
+  background: var(--c-teal);
+  color: var(--c-midnight);
+}
+.btn--accent:hover {
+  background: #14b5a9;
+}
+.btn--small {
+  --h: 2.5rem;
+  padding: 0 1rem;
+  font-size: 0.875rem;
+  border-radius: 8px;
+}
+.btn .arrow {
+  width: 1rem;
+  height: 1rem;
+  transition: transform 0.25s var(--ease);
+}
+.btn:hover .arrow {
+  transform: translateX(3px);
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+@media (max-width: 30em) {
+  .actions .btn {
+    width: 100%;
+  }
+}
+
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-weight: 600;
+  color: var(--accent-ink);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s var(--ease);
+}
+.link-arrow .arrow {
+  width: 1.05em;
+  height: 1.05em;
+  transition: transform 0.25s var(--ease);
+}
+.link-arrow:hover {
+  border-color: currentColor;
+}
+.link-arrow:hover .arrow {
+  transform: translateX(3px);
+}
+.link-plain {
+  color: var(--link);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+.link-plain:hover {
+  text-decoration-thickness: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   Surfaces
+   -------------------------------------------------------------------------- */
+.plate {
+  background: var(--surface);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-l);
+}
+.rule {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Motion primitives — reveal on entry, staggered with --d.
+   -------------------------------------------------------------------------- */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity var(--dur) var(--ease),
+    transform var(--dur) var(--ease);
+  transition-delay: var(--d, 0s);
+}
+.js .reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

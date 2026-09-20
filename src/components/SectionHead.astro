@@ -1,0 +1,11 @@
+---
+// Eyebrow → heading → optional lead. The heading level is a prop so page outlines stay correct.
+const { eyebrow, heading, lead, level = 'h2', align = 'left', headingClass = 'h2', id } = Astro.props;
+const Tag = level;
+---
+<div class:list={['shead', { 'shead--center': align === 'center' }]}>
+  {eyebrow && <p class="eyebrow reveal">{eyebrow}</p>}
+  <Tag class:list={[headingClass, 'reveal']} style="--d:.06s" id={id}>{heading}</Tag>
+  {lead && <p class="lead reveal" style="--d:.12s">{lead}</p>}
+  <slot />
+</div>

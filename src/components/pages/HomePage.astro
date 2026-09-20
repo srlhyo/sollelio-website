@@ -1,0 +1,384 @@
+---
+import Base from '../../layouts/Base.astro';
+import Arrow from '../Arrow.astro';
+import SectionHead from '../SectionHead.astro';
+import HeroFigure from '../HeroFigure.astro';
+import ProductSurface from '../ProductSurface.astro';
+import { SITE, mailto, linkedinHref, DP_SUBJECT } from '../../data/site.js';
+import { t as dict, localePath } from '../../i18n/index.js';
+
+const { lang } = Astro.props;
+const t = dict(lang);
+const h = t.home;
+const events = localePath(lang, '/events');
+const linkedin = linkedinHref();
+---
+<Base title={t.meta.home.title} description={t.meta.home.description} lang={lang} path="/">
+  <!-- 1. Hero -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="container hero__grid">
+      <div class="hero__copy">
+        <p class="eyebrow reveal">{h.hero.eyebrow}</p>
+        <h1 id="hero-title" class="display reveal" style="--d:.06s">{h.hero.title}</h1>
+        <p class="lead reveal" style="--d:.12s">{h.hero.lead}</p>
+        <div class="actions reveal" style="--d:.18s">
+          <a class="btn" href={events}>{h.hero.primary} <Arrow /></a>
+          <a class="btn btn--secondary" href="#design-partners">{h.hero.secondary}</a>
+        </div>
+      </div>
+      <div class="hero__figure reveal" style="--d:.2s">
+        <HeroFigure t={t.fig.hero} />
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. What we build -->
+  <section class="section section--hairline" id="what-we-build" aria-labelledby="wwb-title">
+    <div class="container split split--sticky">
+      <SectionHead eyebrow={h.build.eyebrow} heading={h.build.title} id="wwb-title" />
+      <div class="stack" style="--stack:2.5rem">
+        <div class="prose body measure reveal">
+          <p>{h.build.p1}</p>
+          <p>{h.build.p2}</p>
+        </div>
+        <a class="product-plate plate theme-events reveal" href={events} style="--d:.1s">
+          <img class="product-plate__logo" src="/brand/sollelio-events-logo-horizontal-outlined.svg" alt="Sollelio Events" width="430" height="120" />
+          <p class="product-plate__title h3">{h.build.plateTitle}</p>
+          <p class="product-plate__body body small">{h.build.plateBody}</p>
+          <span class="link-arrow">{h.build.cta} <Arrow /></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Why Sollelio exists -->
+  <section class="section section--hairline why" id="why" aria-labelledby="why-title">
+    <div class="container">
+      <div class="split split--sticky">
+        <SectionHead eyebrow={h.why.eyebrow} heading={h.why.title} id="why-title" />
+        <div class="prose body measure reveal">
+          <p>{h.why.p1}</p>
+          <p>{h.why.p2}</p>
+          <p>{h.why.p3}</p>
+          <p class="em">{h.why.em}</p>
+        </div>
+      </div>
+      <figure class="why__figure reveal">
+        <div class="why__frame">
+          <picture>
+            <source media="(max-width: 47.99em)" srcset="/origin/dlm-journey-m.webp" />
+            <img src="/origin/dlm-journey.webp" srcset="/origin/dlm-journey-900.webp 900w, /origin/dlm-journey.webp 1600w" sizes="(min-width: 76rem) 1216px, 100vw" width="1600" height="830" alt={h.why.figureAlt} loading="lazy" decoding="async" />
+          </picture>
+        </div>
+        <figcaption class="why__caption">
+          <img src="/origin/do-luxo-a-mesa-logo.png" alt="Do Luxo à Mesa" width="190" height="240" />
+          <span class="micro">{h.why.figureCaption}</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 4. Sollelio Events (product environment) -->
+  <section class="section theme-dark theme-events events" id="events" aria-labelledby="events-title">
+    <div class="container events__grid">
+      <div class="events__copy">
+        <p class="eyebrow reveal">{h.events.eyebrow}</p>
+        <h2 id="events-title" class="events__logo reveal" style="--d:.06s">
+          <img src="/brand/sollelio-events-logo-horizontal-reverse-outlined.svg" alt="Sollelio Events" width="430" height="120" />
+        </h2>
+        <p class="h3 events__sub reveal" style="--d:.1s">{h.events.sub}</p>
+        <div class="prose body reveal" style="--d:.14s">
+          <p>{h.events.p1}</p>
+          <p>{h.events.p2}</p>
+        </div>
+        <a class="btn btn--accent reveal" href={events} style="--d:.18s">{h.events.cta} <Arrow /></a>
+      </div>
+      <div class="events__surface reveal" style="--d:.16s">
+        <ProductSurface t={t.product} />
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Founding Design Partners -->
+  <section class="section dp" id="design-partners" aria-labelledby="dp-title">
+    <div class="container">
+      <SectionHead eyebrow={h.dp.eyebrow} heading={h.dp.title} id="dp-title" headingClass="h2 dp__heading" />
+      <div class="prose body measure dp__intro reveal">
+        <p>{h.dp.p1}</p>
+        <p>{h.dp.p2}</p>
+      </div>
+
+      <div class="dp__model">
+        <div class="dp__group reveal">
+          <h3 class="eyebrow dp__group-title">{h.dp.getTitle}</h3>
+          <dl class="dp__gets">
+            {h.dp.gets.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
+          </dl>
+        </div>
+        <div class="dp__group reveal" style="--d:.1s">
+          <h3 class="eyebrow dp__group-title">{h.dp.askTitle}</h3>
+          <p class="body">{h.dp.askIntro}</p>
+          <ul class="dp__asks">
+            {h.dp.asks.map((a) => <li>{a}</li>)}
+          </ul>
+          <p class="micro">{h.dp.micro}</p>
+        </div>
+      </div>
+
+      <div class="dp__cta reveal">
+        <a class="btn" href={mailto(DP_SUBJECT)}>{h.dp.cta} <Arrow /></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Founder -->
+  <section class="section section--s section--hairline founder" id="founder" aria-labelledby="founder-title">
+    <div class="container split">
+      <SectionHead eyebrow={h.founder.eyebrow} heading={h.founder.title} id="founder-title" />
+      <div class="stack" style="--stack:1.75rem">
+        <div class="prose body measure reveal">
+          <p>{h.founder.p1}</p>
+          <p>{h.founder.p2}</p>
+        </div>
+        <a class="link-arrow reveal" href={linkedin} rel="me noopener" target="_blank" data-placeholder={SITE.linkedin ? undefined : 'linkedin'}>{h.founder.cta} <Arrow /></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Final CTA -->
+  <section class="section theme-dark final" id="contact" aria-labelledby="final-title">
+    <div class="container final__grid">
+      <div class="shead">
+        <h2 id="final-title" class="h1 reveal">{h.final.title}</h2>
+        <p class="lead reveal" style="--d:.06s">{h.final.body}</p>
+      </div>
+      <div class="final__actions reveal" style="--d:.12s">
+        <a class="btn" href={mailto()}>{h.final.cta} <Arrow /></a>
+        <a class="final__email mono" href={mailto()}>{SITE.email}</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* Hero */
+  .hero {
+    padding-block: clamp(3.5rem, 2rem + 6vw, 8rem) clamp(4rem, 3rem + 6vw, 8rem);
+  }
+  .hero__grid {
+    display: grid;
+    gap: 3rem;
+    align-items: center;
+  }
+  .hero__copy {
+    display: grid;
+    gap: 1.5rem;
+    justify-items: start;
+  }
+  .hero__copy .display {
+    max-width: 13ch;
+  }
+  .hero__copy .lead {
+    max-width: 30em;
+  }
+  .hero__copy .actions {
+    margin-top: 0.5rem;
+  }
+  @media (min-width: 60em) {
+    .hero__grid {
+      grid-template-columns: 7fr 5fr;
+      gap: clamp(2rem, 6vw, 6rem);
+    }
+  }
+
+  /* Product plate (What we build) */
+  .product-plate {
+    display: grid;
+    gap: 0.9rem;
+    justify-items: start;
+    padding: 1.75rem 1.75rem 1.9rem;
+    transition: border-color 0.25s var(--ease), transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+  }
+  .product-plate:hover {
+    border-color: var(--line);
+    box-shadow: 0 24px 50px -36px rgba(17, 21, 45, 0.35);
+  }
+  .product-plate__logo {
+    height: 2.75rem;
+    width: auto;
+    margin-bottom: 0.5rem;
+  }
+  .product-plate__body {
+    max-width: 34em;
+  }
+  .product-plate .link-arrow {
+    margin-top: 0.25rem;
+  }
+
+  /* Why: origin evidence figure (the DLM system, in its own identity) */
+  .why__figure {
+    margin-top: clamp(3rem, 2rem + 4vw, 5rem);
+    display: grid;
+    gap: 1rem;
+  }
+  .why__frame {
+    background: var(--bg-2);
+    border: 1px solid var(--line-2);
+    border-radius: var(--r-l);
+    padding: clamp(0.75rem, 2vw, 1.5rem);
+  }
+  .why__frame img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--r-s);
+    border: 1px solid var(--line-2);
+    background: #fff;
+    box-shadow: 0 24px 50px -36px rgba(37, 39, 43, 0.4);
+  }
+  .why__caption {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    max-width: 60em;
+  }
+  .why__caption img {
+    height: 2.5rem;
+    width: auto;
+    flex: none;
+  }
+
+  /* Sollelio Events environment */
+  .events__grid {
+    display: grid;
+    gap: 3rem;
+    align-items: start;
+  }
+  .events__copy {
+    display: grid;
+    gap: 1.5rem;
+    justify-items: start;
+  }
+  .events__logo img {
+    height: clamp(3.5rem, 2.5rem + 3vw, 5.25rem);
+    width: auto;
+  }
+  .events__sub {
+    max-width: 20ch;
+  }
+  .events__copy .prose {
+    max-width: 30em;
+  }
+  @media (min-width: 60em) {
+    .events__grid {
+      grid-template-columns: 5fr 7fr;
+      gap: clamp(2rem, 6vw, 5rem);
+    }
+    .events__surface {
+      position: sticky;
+      top: 6rem;
+    }
+  }
+
+  /* Design partners: a collaboration model, not a pricing table */
+  .dp .shead .h2 {
+    max-width: 24ch;
+  }
+  .dp__intro {
+    margin-top: 1.75rem;
+  }
+  .dp__model {
+    display: grid;
+    gap: 3rem clamp(2rem, 6vw, 6rem);
+    margin-top: 3.5rem;
+  }
+  .dp__group {
+    display: grid;
+    gap: 1.25rem;
+    align-content: start;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+  }
+  .dp__group-title {
+    color: var(--ink);
+  }
+  .dp__gets {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.75rem 2rem;
+  }
+  .dp__gets dt {
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+  }
+  .dp__gets dd {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+    text-wrap: pretty;
+  }
+  .dp__asks {
+    display: grid;
+    gap: 0.6rem;
+    color: var(--ink-2);
+  }
+  .dp__asks li {
+    position: relative;
+    padding-left: 1.5rem;
+  }
+  .dp__asks li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.65em;
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 2px;
+    background: var(--accent-soft);
+    border: 1px solid var(--accent);
+  }
+  .dp__cta {
+    margin-top: 3rem;
+  }
+  @media (min-width: 60em) {
+    .dp__model {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (max-width: 30em) {
+    .dp__gets {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Final CTA */
+  .final__grid {
+    display: grid;
+    gap: 2.5rem;
+  }
+  .final .shead .h1 {
+    max-width: 16ch;
+  }
+  .final__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.75rem;
+  }
+  .final__email {
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 2px;
+  }
+  .final__email:hover {
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+  @media (min-width: 60em) {
+    .final__grid {
+      grid-template-columns: 7fr 5fr;
+      align-items: end;
+      gap: 4rem;
+    }
+  }
+</style>
